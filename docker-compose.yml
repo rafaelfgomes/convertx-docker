@@ -1,0 +1,18 @@
+services:
+  convertx:
+    image: ghcr.io/c4illin/convertx
+    container_name: convertx
+    restart: unless-stopped
+    environment:
+      - JWT_SECRET=${JWT_SECRET} # will use randomUUID() if unset
+      - HTTP_ALLOWED=true
+    volumes:
+      - ${CONVERTX_DATA_FOLDER:-./data}:/app/data
+    networks:
+      external:
+        ipv4_address: ${CONVERTX_IP}
+
+networks:
+  external:
+    external: true
+    name: ${EXTERNAL_NETWORK_NAME}
